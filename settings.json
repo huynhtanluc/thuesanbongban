@@ -1,0 +1,11 @@
+{
+    "workbench.colorCustomizations": {
+        "editorCursor.foreground": "#00ff33",
+        "editorCursor.background": "#000000",
+        "terminalCursor.foreground": "#00ff33",
+        "terminalCursor.background": "#000000"
+    },
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorStyle": "line",
+    "editor.cursorWidth": 2
+}

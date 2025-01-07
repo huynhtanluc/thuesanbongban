@@ -1,0 +1,30 @@
+{
+    "Ajax Post Request": {
+        "prefix": "ajaxpost",
+        "body": [
+            "axios",
+            "    .post(url, payload)",
+            "    .then((res) => {",
+            "        if(res.data.status) {",
+            "            toastr.success(res.data.message);",
+            "            $1",
+            "        } else {",
+            "            toastr.error(res.data.message);",
+            "        }",
+            "    })",
+            "    .catch((res) => {",
+            "        NotifiError(res);",
+            "    });"
+        ],
+        "description": "Ajax Post Request Template"
+    },
+
+    "Get Form Data": {
+        "prefix": "getform",
+        "body": [
+            "var payload = getFormData($('#$1'));",
+            "$2"
+        ],
+        "description": "Get Form Data Template"
+    }
+}
