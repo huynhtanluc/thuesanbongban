@@ -6,7 +6,7 @@
             <div class="card mb-4">
                 <div class="card-body text-center">
                     <img src="{{ Auth::guard('khach_hang')->user()->anh ?? 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp' }}"
-                         alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                         alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="my-3">{{ Auth::guard('khach_hang')->user()->ho_va_ten }}</h5>
                     <p class="text-muted mb-1">Thành viên</p>
                     <div class="d-flex justify-content-center mb-2">
