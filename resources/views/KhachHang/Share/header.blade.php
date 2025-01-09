@@ -37,7 +37,7 @@
                 @if(Auth::guard('khach_hang')->check())
                     <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         @if(Auth::guard('khach_hang')->user()->anh != null)
-                            <img src="{{ Auth::guard('khach_hang')->user()->anh }}" class="user-img" alt="user avatar">
+                            <img src="{{ Auth::guard('khach_hang')->user()->anh }}" class="user-img" alt="user avatar" style="object-fit: cover;">
                         @else
                             <img src="{{ Auth::guard('khach_hang')->user()->gioi_tinh == 1 ? '/assets/images/avatars/avatar-1.png' : '/assets/images/avatars/avatar-2.png' }}" class="user-img" alt="user avatar">
                         @endif

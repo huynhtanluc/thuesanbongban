@@ -36,14 +36,14 @@ Route::group(['prefix' => '/admin', 'middleware' => 'adminMiddleware'],function(
         Route::post('/update', [KhachHangController::class, 'update']);
     });
 
-    Route::group(['prefix' => '/bai-viet'], function() {
-        Route::get('/index', [BaiVietController::class, 'index']);
-        Route::post('/create', [BaiVietController::class, 'store']);
-        Route::get('/data', [BaiVietController::class, 'data']);
-        Route::get('/change-status/{id}', [BaiVietController::class, 'changeStatus']);
-        Route::post('/delete', [BaiVietController::class, 'delete']);
-        Route::post('/update', [BaiVietController::class, 'update']);
-    });
+    // Route::group(['prefix' => '/bai-viet'], function() {
+    //     Route::get('/index', [BaiVietController::class, 'index']);
+    //     Route::post('/create', [BaiVietController::class, 'store']);
+    //     Route::get('/data', [BaiVietController::class, 'data']);
+    //     Route::get('/change-status/{id}', [BaiVietController::class, 'changeStatus']);
+    //     Route::post('/delete', [BaiVietController::class, 'delete']);
+    //     Route::post('/update', [BaiVietController::class, 'update']);
+    // });
 
     Route::group(['prefix' => '/san-bong'], function() {
         Route::get('/index', [SanBongController::class, 'index']);
@@ -139,12 +139,12 @@ Route::group(['prefix' => '/khach-hang', 'middleware' => 'khachHangMiddleware'],
     });
 
     Route::group(['prefix' => '/bai-viet'],function() {
-        Route::get("/", [BaiVietController::class, 'indexKhachHang']);
-        Route::get("/data", [BaiVietController::class, 'dataKhachHang']);
-        Route::post("/create", [BaiVietController::class, 'storeKhachHang']);
+        Route::get("/", [BaiVietController::class, 'indexBaiViet']);
+        Route::get("/data", [BaiVietController::class, 'dataBaiViet']);
+        Route::post("/create", [BaiVietController::class, 'storeBaiViet']);
         Route::post("/upload", [BaiVietController::class, 'uploadAnh']);
-        Route::post("/update", [BaiVietController::class, 'updateKhachHang']);
-        Route::post("/delete", [BaiVietController::class, 'deleteKhachHang']);
+        Route::post("/update", [BaiVietController::class, 'updateBaiViet']);
+        Route::post("/delete", [BaiVietController::class, 'deleteBaiViet']);
     });
 
     Route::group(['prefix' => '/thong-ke'],function() {

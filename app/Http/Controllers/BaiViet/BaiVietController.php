@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BaiViet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KhachHang\BaiViet\CreateBaiVietRequest;
 use App\Models\BaiViet;
 use App\Models\ChuSan;
 use Illuminate\Http\Request;
@@ -12,147 +13,37 @@ use Illuminate\Support\Str;
 
 class BaiVietController extends Controller
 {
-    public function index()
-    {
-        return view('Admin.Page.BaiViet.index');
-    }
 
-    public function store(Request $request)
-    {
 
-    }
-
-    public function storeKhachHang(Request $request)
-    {
-        try {
-            $user = Auth::guard('khach_hang')->user();
-            $rules = [
-                'ten_bai_viet'  =>  'required|min:3|max:255',
-                'noi_dung'      =>  'required|min:3',
-                'noi_dung_ngan' =>  'required|min:3',
-                'hinh_anh'      =>  'required',
-            ];
-            $messages = [
-                'ten_bai_viet.required' => 'Tiêu đề bài viết không được để trống!',
-                'ten_bai_viet.max'      => 'Tiêu đề bài viết không được quá 255 ký tự!',
-                'noi_dung.required'     => 'Nội dung bài viết không được để trống!',
-                'noi_dung_ngan.required'=> 'Nội dung ngắn không được để trống!',
-                'hinh_anh.required'     => 'Hình ảnh không được để trống!',
-            ];
-            $request->validate($rules, $messages);
-
-            $maBaiViet = 'BV' . strlen($user->ma_khach_hang) . rand(1000, 9999);
-
-            BaiViet::create([
-                'ma_bai_viet'   => $maBaiViet,
-                'ten_bai_viet'  => $request->ten_bai_viet,
-                'noi_dung'      => $request->noi_dung,
-                'noi_dung_ngan' => $request->noi_dung_ngan,
-                'hinh_anh'      => $request->hinh_anh,
-                'trang_thai'    => 1,
-                'ma_chu_san'    => $user->ma_khach_hang,
-                'id_chu_san'    => $user->id,
-            ]);
-
-            return response()->json([
-                'status'    => true,
-                'messages'  => 'Đã thêm mới bài viết thành công!',
-            ]);
-
-        } catch(\Exception $e) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Có lỗi xảy ra: ' . $e->getMessage()
-            ]);
-        }
-    }
-
-    public function data()
-    {
-        $data = BaiViet::get();
-
-        if($data){
-            return response()->json([
-                'data' => $data
-            ]);
-        }
-    }
-
-    public function changeStatus($id)
-    {
-        $data = BaiViet::find($id);
-
-        if($data){
-            $data->tinh_trang = !$data->tinh_trang;
-            $data->save();
-            return response()->json([
-                'status' => 1,
-                'messages' => 'Đã cập nhật thành công!'
-            ]);
-        }else{
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function delete(Request $request)
-    {
-        $data = $request->all();
-        $khachHang = BaiViet::find($data['id']);
-        if($khachHang){
-            $khachHang->delete();
-            return response()->json([
-                'status' => 1,
-                'messages' => 'Đã xóa thành công!'
-            ]);
-        }else{
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function update(Request $request)
-    {
-        $data = $request->all();
-        $khachHang = BaiViet::find($data['id']);
-        if($khachHang){
-            $khachHang->update($data);
-            return response()->json([
-                'status' => 1,
-                'messages' => 'Đã cập nhật thành công!'
-            ]);
-        }else{
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function indexKhachHang()
+    public function indexBaiViet()
     {
         return view('KhachHang.BaiViet.index');
     }
 
-    public function uploadAnh(Request $request)
+    public function storeBaiViet(CreateBaiVietRequest $request)
     {
-        if($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/bai_viet'), $fileName);
-            return response()->json([
-                'status'    => true,
-                'file'      => '/uploads/bai_viet/' . $fileName,
-                'messages'  => 'Đã tải lên hình ảnh thành công!'
-            ]);
-        }
+        $user = Auth::guard('khach_hang')->user();
+
+        $maBaiViet = 'BV' . strlen($user->ma_khach_hang) . rand(1000, 9999);
+
+        BaiViet::create([
+            'ma_bai_viet'   => $maBaiViet,
+            'ten_bai_viet'  => $request->ten_bai_viet,
+            'noi_dung'      => $request->noi_dung,
+            'noi_dung_ngan' => $request->noi_dung_ngan,
+            'hinh_anh'      => $request->hinh_anh,
+            'trang_thai'    => 1,
+            'ma_chu_san'    => $user->ma_khach_hang,
+            'id_chu_san'    => $user->id,
+        ]);
+
         return response()->json([
-            'status'    => false,
+            'status' => 1,
+            'messages' => 'Đã thêm mới bài viết thành công!'
         ]);
     }
 
-    public function dataKhachHang()
+    public function dataBaiViet()
     {
         $data = BaiViet::where('id_chu_san', Auth::guard('khach_hang')->user()->id)->get();
         return response()->json([
@@ -160,7 +51,7 @@ class BaiVietController extends Controller
         ]);
     }
 
-    public function updateKhachHang(Request $request)
+    public function updateBaiViet(Request $request)
     {
         try {
             $rules = [
@@ -198,7 +89,7 @@ class BaiVietController extends Controller
         }
     }
 
-    public function deleteKhachHang(Request $request)
+    public function deleteBaiViet(Request $request)
     {
         try {
             $baiViet = BaiViet::where('id', $request->id)
@@ -228,6 +119,24 @@ class BaiVietController extends Controller
                 'messages'  => 'Có lỗi xảy ra: ' . $e->getMessage()
             ]);
         }
+    }
+
+    
+    public function uploadAnh(Request $request)
+    {
+        if($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/bai_viet'), $fileName);
+            return response()->json([
+                'status'    => true,
+                'file'      => '/uploads/bai_viet/' . $fileName,
+                'messages'  => 'Đã tải lên hình ảnh thành công!'
+            ]);
+        }
+        return response()->json([
+            'status'    => false,
+        ]);
     }
 
     public function indexChiTietBaiViet($id)
@@ -263,4 +172,5 @@ class BaiVietController extends Controller
 
         return view('KhachHang.TinTuc.index', compact('data', 'bai_viet_noi_bat', 'chu_san_tieu_bieu'));
     }
+
 }

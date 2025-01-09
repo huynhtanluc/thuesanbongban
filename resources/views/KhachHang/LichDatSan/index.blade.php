@@ -230,7 +230,7 @@ new Vue({
         this.loadData();
     },
     methods: {
-        copyToClipboard(text) {
+        copyToClipboard(text) { 
             navigator.clipboard.writeText(text);
             toastr.success('Đã sao chép vào clipboard');
         },
@@ -277,6 +277,7 @@ new Vue({
                     toastr.error('Có lỗi xảy ra!');
                 });
         },
+
         getThongTinThanhToan(value) {
             axios.post('/khach-hang/lich-dat-san/thong-tin-chuyen-khoan', value)
                 .then((res) => {
